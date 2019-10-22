@@ -1,0 +1,95 @@
+---
+title: "Ch02 练习作业"
+author: "王近斐"
+date: "9/23/2019"
+output: 
+  pdf_document: 
+    latex_engine: "xelatex"
+    extra_dependencies:
+      ctexcap: UTF8
+---
+## 1.已知e, x, y
+$$x = (1; 2; 3)^T ; y = (4; 5; 6)^T$$
+
+```{r}
+x <- matrix(c(1,2,3), nr = 3)
+y <- matrix(c(4,5,6), nr = 3)
+e <- matrix(c(1,1,1), nr = 3)
+```
+
+### (1) 计算
+$z <- 2*x + y + e$
+
+```{r}
+z <- 2*x + y + e
+z
+```
+### (2) x y 的内积
+
+```{r}
+t(x) %*% y
+crossprod(x,y)
+```
+### (3) x y 的外积
+
+```{r}
+x %o% y
+tcrossprod(x,y)
+```
+
+## 2. 1...20构成4*5的矩阵,A按列输入，B按行输入
+
+```{r}
+A <- matrix(c(1:20), nr=4, byrow = FALSE)
+B <- matrix(c(1:20), nr=4, byrow = TRUE)
+A; B
+```
+### (1) 
+$$C=A+B$$
+
+```{r}
+C <- A+B
+C
+```
+### (2) $D=AB$
+
+```{r}
+D <- A*B
+D
+```
+### (3) 计算
+$$E=(e_{ij})_{n \times n}$$，其中$$e_{i,j}=a_{i,j} \times b_{i,j}$$
+```{r}
+E <- (A*B)[1:4,1:4]
+E
+```
+### (4) F是A的前3行和前3列构成的矩阵。
+```{r}
+F <- A[c(1,2,3),c(1,2,3)]
+F
+```
+
+### (5)G是B的各列构成的矩阵，但不含B的第3列.
+```{r}
+G <- B[,-3]
+G
+```
+
+## 3. 已知5名学生的数据，读入
+```{r}
+id <- c(1:5)
+name <- c('张三','李四','王五','赵六','丁一')
+gender <- c('女','男','女','男','女')
+age <- c(14,15,16,14,15)
+height <- c(156,165,157,162,159)
+weight <- c(42.0,49,41.5,52,45.5)
+dataframe <- data.frame('序号'=id,'姓名'=name,'性别'=gender,'年龄'=age,'身高_cm'=height,'体重_kg'=weight)
+dataframe
+```
+
+## 4. 从纯文本文件中读取，用read.table()读取；write.csv()写入Excel可以打开的文件，并打开。
+```{r}
+dataframe4 <- read.table("../ExE/exe2_4.txt")
+dataframe4
+write.csv(dataframe4, file="exe2_4.csv")
+```

@@ -1,0 +1,263 @@
+---
+title: "练习题1"
+author: "18328012 王近斐"
+date: "10/16/2019"
+output: 
+  pdf_document: 
+    latex_engine: "xelatex"
+    extra_dependencies:
+      ctexcap: UTF8
+---
+
+# 代码汇总
+```
+# 第二题
+## 安装并加载Rcmdr
+install.packages("Rcmdr")
+library(Rcmdr)
+## 安装并加载animation
+install.packages('animation')
+library(animation)
+### 模拟蒲丰投针实验
+buffon.needle(nmax = 500, interval = 0)
+dev.off()
+### 验证中心极限定理
+f <- function(n) {
+  rchisq(n, 5)
+}
+clt.ani(FUN = f)
+dev.off()
+
+# 第三题
+A <- matrix(c(1:20), nr = 4, byrow = FALSE)
+B <- matrix(c(1:20), nr = 4, byrow = TRUE)
+A
+B
+## (1)
+C <- A + B
+C
+## (2)
+D <- A * B
+D
+## (3)
+E <- (A * B)[1:4, 1:4]
+E
+## (4)
+F <- A[c(1, 2, 3), c(1, 2, 3)]
+F
+### (5)
+G <- B[, -3]
+G
+
+# 第4题
+x <- rep(c(1, 2, 3, 4), c(5, 3, 4, 2))
+x
+
+# 第5题
+id <- c(1:5)
+name <- c('张三', '李四', '王五', '赵六', '丁一')
+gender <- c('女', '男', '女', '男', '女')
+age <- c(14, 15, 16, 14, 15)
+height <- c(156, 165, 157, 162, 159)
+weight <- c(42.0, 49, 41.5, 52, 45.5)
+df <-
+  data.frame(
+    '序号' = id,
+    '姓名' = name,
+    '性别' = gender,
+    '年龄' = age,
+    '身高_cm' = height,
+    '体重_kg' = weight
+  )
+df
+
+# 第6题
+df6 <-
+  read.table(
+    "../ExE/exe2_4.txt",
+    header = TRUE,
+    sep = " ",
+    encoding = "UTF-8"
+  )
+df6
+# write.csv()写成csv文件
+write.csv(df6, file = "exe2_4.csv")
+
+# 第7题
+name <-
+  c(
+    "Edward",
+    "Cynthia",
+    "Eugene",
+    "Elizabeth",
+    "Patrick",
+    "John",
+    "Albert",
+    "Lawrence",
+    "Joseph",
+    "Leo"
+  )
+Gender <- c("G", "G", "B", "G", "B", "B", "B", "B", "B", "B")
+Zep <- c("Y", "Y", "Y", "Y", "N", "Y", "N", "Y", "Y", "Y")
+Weight <- c(16, 14, 13.5, 15.4, 16.5, 16, 17, 14.8, 17, 16.8)
+Years <- c(3, 3, 3, 4, 3, 4, 3, 3, 4, 3)
+Months <- c(5, 10, 5, 0, 8, 0, 11, 9, 1, 3)
+Height <- c(100, 97, 95.5, 101, 100, 98.5, 103, 98, 101.5, 100)
+children <-
+  data.frame(Gender, Zep, Weight, Years, Months, Height, row.names = name)
+
+# 计算均值
+mean(Weight)
+mean(Height)
+
+# 计算BMI值
+attach(children)
+children$BMI <- Weight / ((Height / 100) ^ 2)
+children
+
+plot(Weight, Height)
+title("Weight-Height Scatter plot")
+detach(children)
+```
+
+# 结果演示
+## 第1题
+1. 访问http://www.r-project.org，下载R软件并安装；访问https://www.rstudio.com/，下载Rstudio 并安装。
+
+## 第2题
+2. 回顾R 包的几种不同安装方式。
+- 利用install.packages(“Rcmdr”)命令安装Rcmdr包再用命令load(“Rcmdr”)加载程序包Rcmdr请用命令或菜单的方法安装并加载animation程序包, 尝试如下两个例子
+-- buffon.needle(nmax = 500, interval = 0)
+-- f <- function(n) rchisq(n, 5);clt.ani(FUN = f)
+```
+## 安装并加载Rcmdr
+install.packages("Rcmdr")
+library(Rcmdr)
+## 安装并加载animation
+install.packages('animation')
+library(animation)
+### 模拟蒲丰投针实验
+buffon.needle(nmax = 500, interval = 0)
+dev.off()
+### 验证中心极限定理
+f <- function(n){rchisq(n, 5)}
+clt.ani(FUN = f)
+dev.off()
+```
+
+## 第3题
+1...20构成4*5的矩阵,A按列输入，B按行输入
+
+```{r}
+A <- matrix(c(1:20), nr=4, byrow = FALSE)
+B <- matrix(c(1:20), nr=4, byrow = TRUE)
+A; B
+```
+### (1) $C=A+B$
+
+```{r}
+C <- A+B
+C
+```
+### (2) $D=AB$
+
+```{r}
+D <- A*B
+D
+```
+### (3) 计算
+$$E=(e_{ij})_{n \times n}$$，其中$$e_{i,j}=a_{i,j} \times b_{i,j}$$
+```{r}
+E <- (A*B)[1:4,1:4]
+E
+```
+### (4) F是A的前3行和前3列构成的矩阵。
+```{r}
+F <- A[c(1,2,3),c(1,2,3)]
+F
+```
+
+### (5)G是B的各列构成的矩阵，但不含B的第3列.
+```{r}
+G <- B[,-3]
+G
+```
+
+## 第4题
+构造一个向量x, 向量是由5个1，3个2，4个3 和2个4构成，注意用到rep()函数。
+```{r}
+x <- rep(c(1,2,3,4),c(5,3,4,2))
+x
+```
+
+## 第5题
+已知5名学生的数据，读入
+```{r}
+id <- c(1:5)
+name <- c('张三', '李四', '王五', '赵六', '丁一')
+gender <- c('女', '男', '女', '男', '女')
+age <- c(14, 15, 16, 14, 15)
+height <- c(156, 165, 157, 162, 159)
+weight <- c(42.0, 49, 41.5, 52, 45.5)
+df <-
+  data.frame(
+    '序号' = id,
+    '姓名' = name,
+    '性别' = gender,
+    '年龄' = age,
+    '身高_cm' = height,
+    '体重_kg' = weight
+  )
+df
+```
+
+## 第6题
+将第5题中的数据表写成一个纯文本文件，用函数read.table() 读该文件，然后再用函数write.csv() 写成一个能用Excel 表能打开的文件，并用Excel表打开。
+```{r}
+# 用read.table()读文件
+df6 <- read.table("../ExE/exe2_4.txt",header=TRUE,sep=" ",encoding="UTF-8")
+df6
+# write.csv()写成csv文件
+write.csv(df6, file="exe2_4.csv")
+```
+
+## 第7题
+分析一组儿童样本的特征
+
+```{r}
+name <-
+  c(
+    "Edward",
+    "Cynthia",
+    "Eugene",
+    "Elizabeth",
+    "Patrick",
+    "John",
+    "Albert",
+    "Lawrence",
+    "Joseph",
+    "Leo"
+  )
+Gender <- c("G", "G", "B", "G", "B", "B", "B", "B", "B", "B")
+Zep <- c("Y", "Y", "Y", "Y", "N", "Y", "N", "Y", "Y", "Y")
+Weight <- c(16, 14, 13.5, 15.4, 16.5, 16, 17, 14.8, 17, 16.8)
+Years <- c(3, 3, 3, 4, 3, 4, 3, 3, 4, 3)
+Months <- c(5, 10, 5, 0, 8, 0, 11, 9, 1, 3)
+Height <- c(100, 97, 95.5, 101, 100, 98.5, 103, 98, 101.5, 100)
+children <-
+  data.frame(Gender, Zep, Weight, Years, Months, Height, row.names = name)
+
+# 计算均值
+attach(children)
+mean(Weight)
+mean(Height)
+
+# 计算BMI值
+children$BMI <- Weight/((Height/100)^2)
+children
+
+plot(Weight, Height)
+title("Weight-Height Scatter plot")
+detach(children)
+```
+
